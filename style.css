@@ -1,0 +1,28 @@
+/*   
+this link is a good reference on flex box basics.
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox
+
+testing flex box. the below will apply the default flex direction which is row to the div id container. when that happens, 
+the multiple divs are horizontal and squished. to make it not as squished, use flex-wrap and it will flow to the next row and 
+next row and it does this fluidly even when you resize the browser. but it won't look like a fixed grid of 16x16. also you 
+need the flex 1 bc that will make things shrink and grow in a uniform manner.
+
+*/
+
+#container {  /* this is ok for wrapping content in a fluid way but it is not a 16x16 grid. best to use another method
+    such as grid  */
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+
+/*
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Typical_Use_Cases_of_Flexbox
+
+this link might be helpful but not as helpful as the first one. this one does have a good explanation on navigation layouts and 
+the card layout.
+
+*/
