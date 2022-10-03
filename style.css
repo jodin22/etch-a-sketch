@@ -16,7 +16,7 @@ html {
     /* better learn grid bc in #container { } when you add a gap, the 16x16 is no longer holding and it becomes 15x15 with 
     an extra box in the center bottom */
     width: 1000px;
-    height: 1000px;
+    /* height: 1000px; */
 }
 
 /*   
@@ -34,9 +34,10 @@ need the flex 1 bc that will make things shrink and grow in a uniform manner.
 #container {  /* this is ok for wrapping content in a fluid way but it is not a 16x16 grid. best to use another method
     such as grid? for now, it seems the 16X16 square is holding as long as you don't have a gap */
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap;  /* flows to the next row */
     flex: 1;
-    justify-content: center;
+    justify-content: center; /* the main axis */
+    align-items: center; /* the cross axis */
     /* gap: 3px; by having a gap, it no longer makes it 16x16. it becomes 15x15 with an extra box at the bottom center */
 }
 
