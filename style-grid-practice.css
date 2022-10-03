@@ -1,0 +1,13 @@
+body {
+    width: 90%;
+    max-width: 900px;
+    margin: 2em auto; /* 2em is for top and bottom. auto is for the sides */
+    font: .9em/1.2 Arial, Helvetica, sans-serif;
+}
+
+.container > div { /* class and direct child that is a div */
+    border-radius: 5px;
+    border: 2px solid rgb(79,185,227);
+    padding: 10px;
+    background-color: rgb(207,232,220);
+}
