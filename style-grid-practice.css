@@ -5,9 +5,37 @@ body {
     font: .9em/1.2 Arial, Helvetica, sans-serif;
 }
 
-.container > div { /* class and direct child that is a div */
+.container {
+    display: grid; /* the display won't show anything different until you add grid-template-columns and rows */
+    /* whereas display: flex immediately shows flexbox with default horizontal layout */
+    /* grid-template-columns: 200px 200px 200px; /* 3 column tracks and each track size */ 
+    /* grid-template-columns: 1fr 1fr 1fr; /* 3 column tracks as before, but now each width is 1fr which means fraction. fr distributes 
+    space proportionally. when the tracks were 200px each, there was empty space after the third track bc the width of the body 
+    is 900px and the 3 tracks are only 600 px in total. now that you have 1fr on each track, it spreads out to the entire width 
+    of the body. fr distributes available space. if your other column tracks has something large inside it, then there is 
+    less free space to share */
+    /* grid-template-columns: repeat(3, 1fr); /* repeat(3, 1fr). first param is the number of times you want the listing to repeat.
+    in this ex, you want 3 columns. and the second param is the track listing
+    grid-template-columns is an ex of explicit grid. that line shows 3 col's and even though 
+    there is no mention of rows, it made 3 columns and also some rows. these rows are an ex of implicit grid. implicit grid is 
+    created when content is placed outside of that grid, such as into our rows. the default size of the implicit grid is 
+    auto which means that they're large enough to accommodate their content. */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    /* repeat(auto-fill, minmax(200px, 1fr)). instead of passing a number to the repeat(), use auto-fill. auto-fill creates as
+    many columns as will fit into the container. the minmax is the second param which is saying a min val of 200px and a max 
+    of 1fr. This works because grid is creating as many 200-pixel columns as will fit into the container, then sharing whatever
+    space is leftover among all the columns. The maximum is 1fr which, as we already know, distributes space evenly between 
+    tracks. */
+    grid-auto-rows: minmax(100px, auto); /* gives the implicit track a new size. minmax(100px, auto) means the min new size
+    is 100px and if content is larger than 100px, it will resize to give it enough space. without auto you can have overflow
+    issues and your content may look like it overlaps other things */
+    gap: 20px;
+}
+
+.container > div { /* class and direct child of that class */
     border-radius: 5px;
     border: 2px solid rgb(79,185,227);
     padding: 10px;
     background-color: rgb(207,232,220);
 }
+
