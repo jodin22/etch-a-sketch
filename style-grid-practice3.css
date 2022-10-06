@@ -1,0 +1,98 @@
+/* this part is before using grid template areas. this part creates a 2 column grid. the css below this will use grid template 
+areas instead of grid lines */
+
+body {
+    width: 90%;
+    max-width: 900px; /* before the px, the width was wider but bc of the px, it makes the 90% smaller */
+    margin: 2em auto;
+    font: 0.9em/1.2 Arial, Helvetica, sans-serif;
+}
+
+.container {
+    display: grid; /* creates the grid but won't see it until you give it values for col/row and the size */
+    grid-template-areas: 
+        "header header" /* col 1 and 2. row 1. */
+        "sidebar content" /* col 1 and 2. row 2. */
+        "footer footer"; /* col 1 and 2. row 3. */  /* if you want col 1, row 3 to be blank, then use a period.
+        ". footer" */
+        /* if you want the sidebar to stretch down to row 3, then it will look like this: 
+        "header header"
+        "sidebar content"
+        "sidebar footer" */
+    grid-template-columns: 1fr 3fr; /* 2 col's. 1st is 1fr and 2nd is 3fr  */
+    /* notice it is only cols but the content is also put into rows. the rows are implicit and will have lots 
+    of rows depending on how much content you have. but the cols are explicit so will never go beyond the 2 cols */
+    gap: 20px; 
+}
+
+header, /* adds some rounded borders and padding. also a background color */
+footer {
+    border: 2px solid rgb(79, 185, 227);
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgb(207, 232, 220);
+}
+
+aside { /* border on the right side only */
+    border-right: 1px solid #999;
+}
+
+/* this part is the grid areas instead of the grid lines. your content will look the same as the example that used grid lines 
+
+The rules for grid-template-areas are as follows:
+
+You need to have every cell of the grid filled.
+To span across two cells, repeat the name.
+To leave a cell empty, use a . (period).
+Areas must be rectangular — for example, you can't have an L-shaped area.
+Areas can't be repeated in different locations.
+
+/* "header header" /* col 1 and 2. row 1. */
+/* "sidebar content" /* col 1 and 2. row 2. */
+/* "footer footer"; /* col 1 and 2. row 3. */ 
+
+/* the above grid will make the header stretch across both cols in row 1. the aside will be in the sidebar area which is col 1, row 2. 
+and the article will be in the content area which is col 2, row 2. and the footer will stretch across col 1 and 2 but will be in 
+row 3. */
+
+/*  "header header"  this will make the sidebar which is for the aside to go down col 1 and rows 2 and 3. which will put the 
+    footer directly underneath the content aka article.
+    "sidebar content"
+    "sidebar footer" 
+
+    "header header"  this will make the footer not stretch across col 1 and 2 in the third row. this will keep the footer directly
+    under the content aka article. and the dot means the col 1, row 3 is blank.
+    "sidebar content"
+    ". footer" 
+
+*/
+
+header {
+    grid-area: header;
+}
+
+article {
+    grid-area: content;
+}
+
+aside {
+    grid-area: sidebar;
+}
+
+footer {
+    grid-area: footer;
+}
+
+/* display: grid and grid-template-columns: 1fr 3fr creates a grid and your elements flow into the space based on 
+the default flow behavior of the browser (ex inline and block flow). since the grid always has lines, in english, it
+will be numbered 1 for the first col which will be at the left hand side of the grid. and also numbered 1 for the first
+row at the top of the grid. other languages may be numbered in a backwards sort of way.
+
+
+
+/* notice that when you created the grid, you only did grid-template-columns: 1fr 3fr. these 2 cols are the explicit 
+grid. yet there are rows in your grid. the rows are the implicit grid. when something won't fit in the explicit 
+grid of 2 cols, then it will be placed in the implicit grid in the rows. but also notice this will never go beyond 
+2 cols but will go into many many rows bc the rows are implicit and the 2 cols are sort of fixed. a way to think of 
+explicit is that it is fixed, unchanged. */ 
+
