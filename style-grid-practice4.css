@@ -40,5 +40,34 @@ aside {
 /* the rest of the css uses grid lines to make the 12 columns look like the previous example of practice3 to show the 
 content more like a blog post or news article */
 
+header {
+    grid-column: 1/13; /* even before adding grid-row, the header appears to take up all col's and pushes the rest of 
+    the content to the 2nd row while the header remains alone in the first row. at this point, the 2nd row where the rest 
+    of the content is pushed to, is the implicit part while the col's are the explicit part. */
+    grid-row: 1;  /* the implicit part for the row since col is explicit bc of the grid-template-columns part. at this point
+    the rest of the content is in the second row. <article> is in col 1, <aside> is col 2, <footer> is col 3 */
+}
 
+article {
+    grid-column: 4/13; /* before adding grid-row, this shows the article taking up the 2nd row as <aside> and <footer> are 
+    pushed to row 3. since article starts at col 3, to the left of article is blank space in col's 1 and 2. also in row 3, the 
+    <aside> and <footer> are now squished into col 1 and 2 with lots of empty space in col 3 to the end of the grid. 
+    seems when a col or row is not further defined, then the content flows to fill up that col/row and appears squished. */
+    grid-row: 2; /* before adding the row info, only the article was in row 2 while row 3 had <aside> and <footer>. and article
+    had empty space to the left of it so row 2 looked empty from col's 1 to 3 and from col 4 to end was the article. now with
+    the row info, the previously empty space is taken up by <aside> and <footer>. and row 3 is gone. */
+}
 
+aside {
+   grid-column: 1/4; /* shows aside taking up col 1 to 3 which will put it directly next to the article. now both aside 
+   and article take up row 2 which pushes the footer to row 3. since the explicit part is 12 col's, the footer is squished 
+   into col 1 and the rest of the cols in row 3 are blanks. before the aside grid-column was added, col 1 and 2 was filled 
+   with aside and footer while col 4 to end was the article. also all this was in row 2. there was no row 3.  */
+   grid-row: 2; /* adding grid-row changes nothing. the footer still appears squished in col 1, row 3 */
+}
+
+footer {
+    grid-column: 1/13; /* before this part, the footer was squished in col 1 in the last row. now it spans all the cols in the 
+    last row. */
+    grid-row: 3; /* looks the same even if you were to comment out grid-row */
+}
