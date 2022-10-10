@@ -1,3 +1,44 @@
-/* the content is similar to the previous grid examples (grid lines and grid templates). this grid example will use grid lines
-again. */
+/* the content is similar to the previous grid practice2 and practice3 (grid lines and grid templates). this grid example will 
+use grid lines again. before line 40, the grid is 12 col's and the content is only in col's 1 to 4 and look very squished inside 
+each col. after line 40, it will look more like the previous ex's where it looks like a blog post or news article */
+
+body {
+    width: 90%;  /* limits the content to be 90% of the screen */
+    max-width: 900px; /* limits the 90% to look smaller bc 900 px is less than 90% of the screen */
+    margin: 2em auto; /* 2em is for top/bottom. auto is for left/right. looks more centered */
+    font: .9em/1.2 Arial, Helvetica, sans-serif;
+}
+
+.container {
+    display: grid; /* doesn't show anything until the columns are defined */
+    grid-template-columns: repeat(12, minmax(0, 1fr)); /* repeat(12) creates 12 columns. minmax(0,1fr) makes each col a min of 
+    0px and max of 1 fr. before you add grid lines, the content looks squished into 12 columns.
+    <header> is col 1
+    <article> is col 2
+    <aside> is col 3
+    <footer> is col 4
+    col's 5 to 12 are blank. also all these are in 1 row. no additional rows yet */
+    gap: 20px;
+}
+
+header,
+footer {
+    border-radius: 5px;
+    border: 2px solid rgb(79,185,227);
+    padding: 10px;
+    background-color: rgb(207,232,220);
+    /* before the grid lines are added, the header and footer are still squished in a long column but now have a border and 
+    color */
+}
+
+aside {
+    border-right: 1px solid #999;
+    /* before the grid lines are added, the aside is still squished in a long column but now have a right side border and 
+    color */
+}
+
+/* the rest of the css uses grid lines to make the 12 columns look like the previous example of practice3 to show the 
+content more like a blog post or news article */
+
+
 
