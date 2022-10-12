@@ -32,6 +32,26 @@ for(let i = 1; i <= 255; i++) { // appends 255 divs. the first div is appended i
     container.appendChild(divClone);
 }
 
+/* select all div class square. then loop thru each one to do a mouse enter and leave. remember the node list is not a real array
+but it does have the forEach method available to it so this will still work.
+*/
+
+const divClassSquare = document.querySelectorAll('.square');
+divClassSquare.forEach(square => square.addEventListener('mouseenter', (e) => {
+    console.log('This is mouse enter'); // while testing, it prints mouse enter and all the event properties
+    console.log(e);
+    e.target.setAttribute('style', 'background-color: orange'); // changes the background color from the original to orange
+
+}));
+divClassSquare.forEach(square => square.addEventListener('mouseleave', (e) => {
+    console.log('This is mouse leave'); // while testing, it prints mouse leave and all the event properties
+    console.log(e);
+    e.target.setAttribute('style', 'background-color: rgb(207,232,220)'); // changes the background color back to the original
+
+}));
+
+
+
 
 
 
