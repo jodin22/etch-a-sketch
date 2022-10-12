@@ -1,0 +1,12 @@
+/* using box-sizing will ensure your content stays a certain size even after you add the padding, borders etc. otherwise when you
+add the border, padding etc, it will make it wider/higher than the given width/height you put in your css for that element */
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
