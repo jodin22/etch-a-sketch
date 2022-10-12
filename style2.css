@@ -1,5 +1,9 @@
 /* using box-sizing will ensure your content stays a certain size even after you add the padding, borders etc. otherwise when you
-add the border, padding etc, it will make it wider/higher than the given width/height you put in your css for that element */
+add the border, padding etc, it will make it wider/higher than the given width/height you put in your css for that element. */
+
+/* before you had the index file reference style. now it will be style2. style had flexbox only. style2 will be grid so you can add 
+padding and have gaps and it will still remain a 16x16 square. with flexbox, the 16x16 square broke whenever you added things 
+like gap and padding etc */
 
 html {
     box-sizing: border-box;
@@ -9,4 +13,30 @@ html {
 *::before,
 *::after {
     box-sizing: inherit;
+}
+
+#container {
+    width: 90%; /* only use 90% of your container */
+    margin: 2em auto; /* makes things more centered bc the top/bottom are 2em and the sides are auto which means it will adjust
+    automatically */
+    font: .9em/1.2 Arial, Helvetica, sans-serif;
+    display: grid; /* won't show as grid until you add info about columns/rows */
+    /* grid-template-columns: repeat(16, 1fr); makes it 16 columns. must have a size for each column. that is the 2nd param. */
+    grid-template-columns: repeat(16, minmax(0, 1fr)); /* changed the 2nd param to have a minmax instead of 1fr only */
+    grid-auto-rows: minmax(0, 1fr); /* the cols are explicit and the rows are implicit. this gives a minmax to each row.
+    remember that the 16 explicit cols means it won't go beyond 16 and when it wants to fit more after 16 cols, then it will do 
+    so in col 1 of the next row and the next row and so on. so rows will show up. */
+    gap: 20px; 
+}
+
+.square {
+    border-radius: 5px; /* rounded borders */
+    border: 2px solid; /* size and color */
+    background-color: rgb(207,232,220); /* background color of each square. the hover effect will change this color */
+    width: 60px; 
+    height: 60px;
+    /* although each square is supposed to be 60x60, lines 8 to 16 for box-sizing will make the content go 
+    down to 56 and when you add in the border 2px for each side, then it becomes 60 for height and width. the box-sizing is
+    needed to ensure the div class square is uniform for each square. otherwise when you add more padding/spacing, then it 
+    will push things away and your layout won't appear as you expect */
 }
