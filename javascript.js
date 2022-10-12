@@ -15,7 +15,7 @@ div.classList.add('square'); // creates a new class for your new div
 // div.setAttribute('style', 'border-style: solid; border-color: black'); // adds some styling to your new div
 // move this to css later. while testing, want to see each div clearly so when we do flex or grid, we can see how much space
 // between each square is needed. later in css, resize each div as a square
-div.textContent = 'This will be a square'; // add text to your new div. this is actually a child of your div so when you clone 
+div.textContent = 'Square'; // add text to your new div. this is actually a child of your div so when you clone 
 // this, you need to use true. if you use false, the text won't appear.
 container.appendChild(div); // append to the div container
 
@@ -49,6 +49,18 @@ divClassSquare.forEach(square => square.addEventListener('mouseleave', (e) => {
     e.target.setAttribute('style', 'background-color: rgb(207,232,220)'); // changes the background color back to the original
 
 }));
+
+const outerButton = document.querySelector('#outer'); // gets the id and puts in a var
+const divButton = document.createElement('div'); // creates a new div and puts in a var
+divButton.classList.add('button'); // adds a class to your new div
+const button = document.createElement('button'); // creates a button and puts in a var
+button.textContent = 'Click Me!' // puts some text in your button
+outerButton.insertBefore(divButton, container); // appends the new div above the container div. remember the structure has 
+// div id outer as the parent and the first child is div id container. you need to put the new div before the div container.
+divButton.appendChild(button); // now the structure is div id outer (parent), then div class button (first child), then div id 
+// container (next child). since div class button is already the first child of div id outer, you can use appendChild and don't 
+// need insertBefore 
+
 
 
 

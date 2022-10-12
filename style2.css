@@ -33,10 +33,24 @@ html {
     border-radius: 5px; /* rounded borders */
     border: 2px solid; /* size and color */
     background-color: rgb(207,232,220); /* background color of each square. the hover effect will change this color */
-    width: 60px; 
+    width: 60px; /* may need to change the width/height to auto bc when more squares are added than the 
+    original 16x16, it might not look right? */
     height: 60px;
     /* although each square is supposed to be 60x60, lines 8 to 16 for box-sizing will make the content go 
     down to 56 and when you add in the border 2px for each side, then it becomes 60 for height and width. the box-sizing is
     needed to ensure the div class square is uniform for each square. otherwise when you add more padding/spacing, then it 
     will push things away and your layout won't appear as you expect */
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    border-radius: 5px;
+    border: 2px solid;
+    background-color: rgb(207,232,220);
+    padding: 10px;
 }
