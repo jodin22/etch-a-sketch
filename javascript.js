@@ -9,6 +9,7 @@ document.body.insertBefore(paragraphs[2], paragraphs[0]);
 
 */
 
+/* move to button area
 const container = document.querySelector('#container'); // gets the id and puts in a var
 const div = document.createElement('div'); // creates a new div and puts in a var
 div.classList.add('square'); // creates a new class for your new div
@@ -18,24 +19,27 @@ div.classList.add('square'); // creates a new class for your new div
 div.textContent = 'Square'; // add text to your new div. this is actually a child of your div so when you clone 
 // this, you need to use true. if you use false, the text won't appear.
 container.appendChild(div); // append to the div container
+*/
 
-/*
+/* figure out if you need this in the button area
 const divClone = div.cloneNode(true);  // true will clone descendents. in this case, the div has a descendent which is the 
 // textContent. you must use true or else it will only clone the div with no text inside. 
 container.appendChild(divClone);
 */
 
+/*  move to button area
 for(let i = 1; i <= 255; i++) { // appends 255 divs. the first div is appended in line 20 without a loop. 
     // so 1 + 255 = 256 which will equal the 16x16 grid.
     const divClone = div.cloneNode(true);  // true will clone descendents. in this case, the div has a descendent which is the 
     // textContent. you must use true or else it will only clone the div with no text inside. 
     container.appendChild(divClone);
 }
+*/
 
 /* select all div class square. then loop thru each one to do a mouse enter and leave. remember the node list is not a real array
 but it does have the forEach method available to it so this will still work.
 */
-
+ 
 const divClassSquare = document.querySelectorAll('.square'); // gets all the class square and puts it in a var. this var is  
 // a node list which is an array-like thing. 
 divClassSquare.forEach(square => square.addEventListener('mouseenter', (e) => {  
@@ -66,6 +70,17 @@ divClassSquare.forEach(square => square.addEventListener('mouseleave', (e) => {
 
 }));
 
+/*so far, the button is able to get the number from the user and create squares that match that number. but the grid needs to be
+worked out bc right now it is using the css file to make a static 16 col's. you need to make the cols equal to the number entered 
+by the user. you thought you could edit the css file to be something like this 
+grid-template-columns: repeat(aNumberEachSide, minmax(0, 1fr)); css can't use a variable but it can use numbers in their 
+functions. you will need to include your grid parts in your js and not reference the css file. ex will be something like:
+container.style.gridTemplate = `repeat(${test}, 1fr) / repeat(${test}, 1fr)`;
+
+also note that your line 43 to 71 is no longer working. it used to change colors of the square. maybe you can't use css file
+for things like this and must include the styling in your js and only have the css file for the basic styling such as the 
+square shape and color.  */
+
 const outerButton = document.querySelector('#outer'); // gets the id and puts in a var
 const divButton = document.createElement('div'); // creates a new div and puts in a var
 divButton.classList.add('button'); // adds a class to your new div
@@ -79,11 +94,32 @@ divButton.appendChild(button); // now the structure is div id outer (parent), th
 
 button.addEventListener('click', (e) => {
     console.log(e);
-    const aNumber = Number(window.prompt('Type a number:', ''));
+    const aNumber = Number(window.prompt('Type a number:', ''));  // need to specify between 2 to 100 bc if only 1, then it 
+    // isn't a grid and if more than 100, the computer resources start to slow down/freeze.
     console.log(aNumber);
+    const aNumberEachSide = aNumber * aNumber;
+    console.log(aNumberEachSide);
+    /* general steps. you need to clear the screen first but figure out the removeChild later. first see if you can use 
+    the loop from above to create new divs and append them based on the user's number */
+
+    const container = document.querySelector('#container'); // gets the id and puts in a var
+    const div = document.createElement('div'); // creates a new div and puts in a var
+    div.classList.add('square'); // creates a new class for your new div
+    // div.setAttribute('style', 'border-style: solid; border-color: black'); // adds some styling to your new div
+    // move this to css later. while testing, want to see each div clearly so when we do flex or grid, we can see how much space
+    // between each square is needed. later in css, resize each div as a square
+    div.textContent = 'Square'; // add text to your new div. this is actually a child of your div so when you clone 
+    // this, you need to use true. if you use false, the text won't appear.
+    container.appendChild(div); // append to the div container. this is your first square.
+
+    for(let i = 2; i <= aNumberEachSide; i++) { // appends more divs based on the user's number. the first div is appended before the loop. 
+        // so start the counter at 2 and keep appending until you hit the user's number.
+        const divClone = div.cloneNode(true);  // true will clone descendents. in this case, the div has a descendent which is the 
+        // textContent. you must use true or else it will only clone the div with no text inside. 
+        container.appendChild(divClone);
+    }
+
 });
-
-
 
 
 
