@@ -42,9 +42,11 @@ html {
     will push things away and your layout won't appear as you expect */
 }
 
-.button {
+.button { /* this part will not be grid. it will be flex box bc this div that holds the button is just by itself so it makes
+    sense to just use a one dimensional layout. unlike grid which is for a two dimensional layout */
     display: flex;
-    justify-content: center;
+    justify-content: center; /* earlier, you tried to put the centering on the button itself and it won't center. you need 
+    to put the button in its own div area and then apply the flex box centering */
     align-items: center;
 }
 

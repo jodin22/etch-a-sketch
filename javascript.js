@@ -36,17 +36,33 @@ for(let i = 1; i <= 255; i++) { // appends 255 divs. the first div is appended i
 but it does have the forEach method available to it so this will still work.
 */
 
-const divClassSquare = document.querySelectorAll('.square');
-divClassSquare.forEach(square => square.addEventListener('mouseenter', (e) => {
-    console.log('This is mouse enter'); // while testing, it prints mouse enter and all the event properties
-    console.log(e);
+const divClassSquare = document.querySelectorAll('.square'); // gets all the class square and puts it in a var. this var is  
+// a node list which is an array-like thing. 
+divClassSquare.forEach(square => square.addEventListener('mouseenter', (e) => {  
+    // console.log('This is mouse enter'); // while testing, it prints mouse enter and all the event properties
+    // console.log(e);
+
+    // use the forEach method. this takes each element in the node list and uses an arrow function to pass each element to the 
+    // event listener. since a forEach method is similar to a loop where you do an action over and over again, but this repetitive 
+    // action is done the same for each element in the node list. it only ends when there are no longer elements to do the action 
+    // on. so forEach is a good method to use on node lists bc you will never know how many of those nodes you will have.
+    // the event listener is listening for the mouse enter. and the (e) is the mouse enter object which you are passing to  
+    // another arrow function. this arrow function does only one thing for now. it can do many things if you have more steps, 
+    // but for now, you only want it to do one thing which is to change the color. you do that by using the target of the object. 
+    
     e.target.setAttribute('style', 'background-color: orange'); // changes the background color from the original to orange
 
+    // essentially all this does is go through each of your class square and listens for the mouse enter event. when the mouse 
+    // enter happens, then it changes the color of the target where the mouse enter happened.    
 }));
 divClassSquare.forEach(square => square.addEventListener('mouseleave', (e) => {
-    console.log('This is mouse leave'); // while testing, it prints mouse leave and all the event properties
-    console.log(e);
+    // console.log('This is mouse leave'); // while testing, it prints mouse leave and all the event properties
+    // console.log(e);
     e.target.setAttribute('style', 'background-color: rgb(207,232,220)'); // changes the background color back to the original
+
+    // essentially all this does is go through each of your class square and listens for the mouse leave event. when the mouse 
+    // leave happens, then it changes the color of the target where the mouse leave happened. refer to the notes for the mouse 
+    // enter section above this section if you need a refresher on arrow functions and event listeners.
 
 }));
 
@@ -60,6 +76,12 @@ outerButton.insertBefore(divButton, container); // appends the new div above the
 divButton.appendChild(button); // now the structure is div id outer (parent), then div class button (first child), then div id 
 // container (next child). since div class button is already the first child of div id outer, you can use appendChild and don't 
 // need insertBefore 
+
+button.addEventListener('click', (e) => {
+    console.log(e);
+    const aNumber = Number(window.prompt('Type a number:', ''));
+    console.log(aNumber);
+});
 
 
 
