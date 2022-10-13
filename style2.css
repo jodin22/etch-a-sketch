@@ -22,12 +22,12 @@ html {
     automatically */
     font: .9em/1.2 Arial, Helvetica, sans-serif;
     display: grid; /* won't show as grid until you add info about columns/rows */
-    /* grid-template-columns: repeat(16, 1fr); makes it 16 columns. must have a size for each column. that is the 2nd param. */
+    /* rid-template-columns: repeat(16, 1fr); makes it 16 columns. must have a size for each column. that is the 2nd param. */
     grid-template-columns: repeat(16, minmax(0, 1fr)); /* changed the 2nd param to have a minmax instead of 1fr only */
     grid-auto-rows: minmax(0, 1fr); /* the cols are explicit and the rows are implicit. this gives a minmax to each row.
     remember that the 16 explicit cols means it won't go beyond 16 and when it wants to fit more after 16 cols, then it will do 
     so in col 1 of the next row and the next row and so on. so rows will show up. */
-    gap: 20px; 
+    gap: 20px;
 }
 
 .square {
@@ -46,6 +46,7 @@ html {
 .button { /* this part will not be grid. it will be flex box bc this div that holds the button is just by itself so it makes
     sense to just use a one dimensional layout. unlike grid which is for a two dimensional layout */
     display: flex;
+    width: 90%;
     justify-content: center; /* earlier, you tried to put the centering on the button itself and it won't center. you need 
     to put the button in its own div area and then apply the flex box centering */
     align-items: center;
