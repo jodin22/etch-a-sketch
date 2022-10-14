@@ -9,7 +9,6 @@ document.body.insertBefore(paragraphs[2], paragraphs[0]);
 
 */
 
-/* move to button area? */
 const container = document.querySelector('#container'); // gets the id and puts in a var
 const div = document.createElement('div'); // creates a new div and puts in a var
 div.classList.add('square'); // creates a new class for your new div
@@ -26,8 +25,6 @@ const divClone = div.cloneNode(true);  // true will clone descendents. in this c
 // textContent. you must use true or else it will only clone the div with no text inside. 
 container.appendChild(divClone); */
 
-
-/*  move to button area? */
 for(let i = 2; i <= 256; i++) { // appends 255 divs. the first div is appended in line 20 without a loop. 
     // so 1 + 255 = 256 which will equal the 16x16 grid.
     const divClone = div.cloneNode(true);  // true will clone descendents. in this case, the div has a descendent which is the 
@@ -70,17 +67,19 @@ divClassSquare.forEach(square => square.addEventListener('mouseleave', (e) => {
 
 }));
 
+// above this line is for the first part of the hw which is to create a grid of squares 16x16 and each time the mouse hovers over
+// the square, it changes colors. it works. leave alone.
 
-/*so far, the button is able to get the number from the user and create squares that match that number. but the grid needs to be
-worked out bc right now it is using the css file to make a static 16 col's. you need to make the cols equal to the number entered 
-by the user. you thought you could edit the css file to be something like this 
-grid-template-columns: repeat(aNumberEachSide, minmax(0, 1fr)); css can't use a variable but it can use numbers in their 
-functions. you will need to include your grid parts in your js and not reference the css file. ex will be something like:
-container.style.gridTemplate = `repeat(${test}, 1fr) / repeat(${test}, 1fr)`;
-
-also note that your line 43 to 71 is no longer working (you moved it to before the button.addEventListener). it used to 
-change colors of the square. maybe you can't use css file for things like this and must include the styling in your js and 
-only have the css file for the basic styling such as the square shape and color.  */
+// below this line is the last part of the hw. it creates a button. when you click the button, a pop up asks the user for a number.
+// this number will create a new grid of squares using that number for each side. if the number is 11, then a grid of 11x11 
+// squares are made. it works. but the color feature doesn't work. the color feature is only on the first square and the rest 
+// of the squares don't have the color changing feature. figure out what is wrong. maybe put the color change in a function and
+// call it repeatedly? another unusual thing is that when the user enters 0, there is still 1 square made in the grid.
+// and that single square has the color change feature. maybe that first square is not really from the code below but is a
+// left over in memory from the first 256 squares? confused on what nodes are still in memory and which ones are no longer
+// in memory. had that problem trying to remove child nodes. used the container.setAttribute('id', 'new-container'); to make 
+// the removing of child nodes work. does this mean that the first child of the original <div id='container'> didn't get
+// removed when the loop for removing child nodes ran?
 
 const outerButton = document.querySelector('#outer'); // gets the id and puts in a var
 const divButton = document.createElement('div'); // creates a new div and puts in a var
@@ -94,8 +93,7 @@ divButton.appendChild(button); // now the structure is div id outer (parent), th
 // need insertBefore 
 
 /* the below for the click seems to work ok in terms of making a grid with the correct number of squares on each side. but 
-the changing of the colors from the mouse event no longer works?  commented out all the button event stuff and trying a different
-approach */
+the changing of the colors from the mouse event no longer works. maybe put the color changing in a function and call it? */
 button.addEventListener('click', (e) => {
     console.log(e);
     const eachSideNumber = Number(window.prompt('Type a number:', ''));  // need to specify between 2 to 100 bc if only 1, then it 
@@ -103,21 +101,18 @@ button.addEventListener('click', (e) => {
     console.log(eachSideNumber);
     const totalNumber = eachSideNumber * eachSideNumber;
     console.log(totalNumber);
-    /* general steps. you need to clear the screen first but figure out the removeChild later. first see if you can use 
-    the loop from above to create new divs and append them based on the user's number */
 
-    /*  Uncaught TypeError: Cannot read properties of null (reading 'removeChild')
-    at HTMLButtonElement.<anonymous> ?  also the very last div gets removed only? started with 256 but the corner was is gone
-    the one in the very bottom right corner? */
+    container.setAttribute('id', 'new-container'); // container var is <div id='container'> from way up top
+    // if id exists, update it to new-container, else create an id with value new-container. 
+    // the result will be <div id='new-container'> and it stays that way after each button click
 
-    /* try moving this to a function and call the function from this line? */
-    
-    const originalGrid = document.querySelector('.square');
-    for(let i = 1; i <= 256; i++) {
-        originalGrid.parentNode.removeChild(originalGrid);
-    }
+    const wasOriginalGrid = document.querySelector('#new-container');
+    while (wasOriginalGrid.firstChild) {
+        wasOriginalGrid.removeChild(wasOriginalGrid.lastChild);
+    } // this got rid of the original 256 squares. the first one is still showing the color changing is on the
+    // the new ones added lost the color changing
 
-    container.appendChild(div);
+    container.appendChild(div); // this and the loop below it put the new squares
 
     for(let i = 2; i <= totalNumber; i++) { // appends more divs based on the user's number. the first div is appended before the loop. 
         // so start the counter at 2 and keep appending until you hit the user's number.
@@ -126,6 +121,14 @@ button.addEventListener('click', (e) => {
         container.appendChild(divClone);
     }
 
+    /* grid-template-columns: repeat(16, minmax(0, 1fr)); changed the 2nd param to have a minmax instead of 1fr only
+    grid-auto-rows: minmax(0, 1fr); the cols are explicit and the rows are implicit. this gives a minmax to each row.
+    remember that the 16 explicit cols means it won't go beyond 16 and when it wants to fit more after 16 cols, then it will do 
+    so in col 1 of the next row and the next row and so on. so rows will show up. */
+
+    // the above grid-template-columns is from the css file. since the css can't use variables other than specific numbers in the 
+    // repeat(), the below inline style can use variables and will resize the grid based on the user number input. also bc it is
+    // an inline style rule, it overrides the css file
     container.style.gridTemplateColumns = `repeat(${eachSideNumber}, minmax(0, 1fr))`;
     container.style.gridAutoRows = 'minmax(0, 1fr)';
 
