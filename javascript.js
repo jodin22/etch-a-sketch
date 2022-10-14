@@ -19,12 +19,6 @@ div.textContent = 'Square'; // add text to your new div. this is actually a chil
 // this, you need to use true. if you use false, the text won't appear.
 container.appendChild(div); // append to the div container
 
-
-/* figure out if you need this in the button area 
-const divClone = div.cloneNode(true);  // true will clone descendents. in this case, the div has a descendent which is the 
-// textContent. you must use true or else it will only clone the div with no text inside. 
-container.appendChild(divClone); */
-
 for(let i = 2; i <= 256; i++) { // appends 255 divs. the first div is appended in line 20 without a loop. 
     // so 1 + 255 = 256 which will equal the 16x16 grid.
     const divClone = div.cloneNode(true);  // true will clone descendents. in this case, the div has a descendent which is the 
@@ -38,6 +32,9 @@ but it does have the forEach method available to it so this will still work.
  
 const divClassSquare = document.querySelectorAll('.square'); // gets all the class square and puts it in a var. this var is  
 // a node list which is an array-like thing. 
+console.log(divClassSquare); // to see the count of nodes and to compare the count with what happens when you click the button
+// see the console.log(divClassSquareAfterButton) to see how many nodes after you click the button and get the 
+// user's number. seems to shows the correct number of nodes
 divClassSquare.forEach(square => square.addEventListener('mouseenter', (e) => {  
     // console.log('This is mouse enter'); // while testing, it prints mouse enter and all the event properties
     // console.log(e);
@@ -73,13 +70,23 @@ divClassSquare.forEach(square => square.addEventListener('mouseleave', (e) => {
 // below this line is the last part of the hw. it creates a button. when you click the button, a pop up asks the user for a number.
 // this number will create a new grid of squares using that number for each side. if the number is 11, then a grid of 11x11 
 // squares are made. it works. but the color feature doesn't work. the color feature is only on the first square and the rest 
-// of the squares don't have the color changing feature. figure out what is wrong. maybe put the color change in a function and
-// call it repeatedly? another unusual thing is that when the user enters 0, there is still 1 square made in the grid.
+// of the squares don't have the color changing feature.
+ 
+// another unusual thing is that when the user enters 0, there is still 1 square made in the grid.
 // and that single square has the color change feature. maybe that first square is not really from the code below but is a
 // left over in memory from the first 256 squares? confused on what nodes are still in memory and which ones are no longer
 // in memory. had that problem trying to remove child nodes. used the container.setAttribute('id', 'new-container'); to make 
 // the removing of child nodes work. does this mean that the first child of the original <div id='container'> didn't get
 // removed when the loop for removing child nodes ran?
+
+// solved the color changing feature after the button click by 
+// re-using the divClassSquare.forEach(square => square.addEventListener('mouseenter', (e) => { ... but instead of using the 
+// var divClassSquare, i used another var called const divClassSquareAfterButton = document.querySelectorAll('.square');
+// seems when we reference a node by a var name, it seems we can't always keep using it again. learned that the first time 
+// when i wanted to append multiple divs and i couldn't so i had to use cloneNode. maybe it's best to use things like
+// container.setAttribute('id', 'new-container') to use that div id again but using a new id to then change the children or 
+// create another var that references the same node you want to reuse and reuse it using it's new var name? need to read more 
+// about reusing nodes and their children. 
 
 const outerButton = document.querySelector('#outer'); // gets the id and puts in a var
 const divButton = document.createElement('div'); // creates a new div and puts in a var
@@ -102,17 +109,30 @@ button.addEventListener('click', (e) => {
     const totalNumber = eachSideNumber * eachSideNumber;
     console.log(totalNumber);
 
-    container.setAttribute('id', 'new-container'); // container var is <div id='container'> from way up top
+    container.setAttribute('id', 'new-container'); // original container var is <div id='container'> from way up top
     // if id exists, update it to new-container, else create an id with value new-container. 
     // the result will be <div id='new-container'> and it stays that way after each button click
 
+    // this part removes all children starting from the first child. it goes top down.
+    const wasOriginalGrid = document.querySelector('#new-container');
+    while (wasOriginalGrid.firstChild) {
+        wasOriginalGrid.removeChild(wasOriginalGrid.firstChild);
+    }
+
+    /*  this part removes all children starting from the last child. it goes bottom up.
     const wasOriginalGrid = document.querySelector('#new-container');
     while (wasOriginalGrid.firstChild) {
         wasOriginalGrid.removeChild(wasOriginalGrid.lastChild);
     } // this got rid of the original 256 squares. the first one is still showing the color changing is on the
     // the new ones added lost the color changing
+    */
 
-    container.appendChild(div); // this and the loop below it put the new squares
+    console.log(wasOriginalGrid.firstChild); // shows null?
+    // const remainingChild = wasOriginalGrid.firstElementChild;  doesn't work. gives error about node is not child of element
+    // and something about button but this is not under button. it is under <div id=new-container>?
+    // wasOriginalGrid.removeChild(remainingChild);
+
+    wasOriginalGrid.appendChild(div); // this and the loop below it put the new squares
 
     for(let i = 2; i <= totalNumber; i++) { // appends more divs based on the user's number. the first div is appended before the loop. 
         // so start the counter at 2 and keep appending until you hit the user's number.
@@ -120,6 +140,21 @@ button.addEventListener('click', (e) => {
         // textContent. you must use true or else it will only clone the div with no text inside. 
         container.appendChild(divClone);
     }
+
+    // 
+    const divClassSquareAfterButton = document.querySelectorAll('.square');
+    console.log(divClassSquareAfterButton); // to see the count of nodes after you click the button and get the user's numbers.
+    // see the console.log(divClassSquare) to see how many nodes before the button click. seems to show the correct number of 
+    // nodes.
+    divClassSquareAfterButton.forEach(square => square.addEventListener('mouseenter', (e) => { 
+        e.target.setAttribute('style', 'background-color: orange');
+    }));
+
+    divClassSquareAfterButton.forEach(square => square.addEventListener('mouseleave', (e) => { 
+        e.target.setAttribute('style', 'background-color: rgb(207,232,220)');
+    }));
+
+
 
     /* grid-template-columns: repeat(16, minmax(0, 1fr)); changed the 2nd param to have a minmax instead of 1fr only
     grid-auto-rows: minmax(0, 1fr); the cols are explicit and the rows are implicit. this gives a minmax to each row.
