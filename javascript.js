@@ -118,9 +118,21 @@ divClassSquare. after the button click, it is referenced with divClassSquareAfte
 
 button.addEventListener('click', (e) => {
     console.log(e);
-    const eachSideNumber = Number(window.prompt('Type a number:', ''));  // need to specify between 2 to 100 bc if only 1, then it 
-    // isn't a grid and if more than 100, the computer resources start to slow down/freeze.
-    console.log(eachSideNumber);
+    const eachSideNumber = Number(window.prompt('Type a number between 1 and 100. The number determines how many squares per side of the new grid:', ''));
+    console.log(eachSideNumber);  // to limit only numbers 1 thru 100. this exits the button event if an invalid number is typed
+    if (eachSideNumber < 1) { 
+        alert('It must be between 1 and 100');
+        return;
+    } else if (eachSideNumber > 100) {
+        alert('It must be between 1 and 100');
+        return;
+    } else if (eachSideNumber !== eachSideNumber) { // since a letter or space or or any key that is not a number is still 
+        // a numeric data type bc of casting the prompt as a Number, it is seen as NaN. to test for something that is NaN, 
+        // you can use that value !== value.
+        alert('It must be between 1 and 100');
+        return;
+    };
+
     const totalNumber = eachSideNumber * eachSideNumber;
     console.log(totalNumber);
 
