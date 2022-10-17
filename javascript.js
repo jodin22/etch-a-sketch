@@ -85,10 +85,10 @@ divClassSquare.forEach(square => square.addEventListener('mouseleave', (e) => {
 // new var is still holding the node list of all the divs class square. <div class='square'>. before i thought the forEach would
 // still work from the earlier lines of code above but the new squares didn't change colors. 
 
-// seems when we reference a node by a var name, it seems some times we can't use that var again? learned that the first time 
+// seems when we reference a node by a var name, it seems some times we can't use that var name again? learned that the first time 
 // when i wanted to append multiple divs and i couldn't so i had to use cloneNode. maybe it's best to use things like
 // container.setAttribute('id', 'new-container') to use that div id again but using a new id to then change the children or 
-// create another var that references the same node you want to reuse and reuse it using it's new var name? need to read more 
+// create another var that references the same node you want to reuse but you're reusing it via a new var name? need to read more 
 // about reusing nodes and their children. also see if toggle class is better than setAttribute?
 
 const outerButton = document.querySelector('#outer'); // gets the id and puts in a var
@@ -102,8 +102,6 @@ divButton.appendChild(button); // now the structure is div id outer (parent), th
 // container (next child). since div class button is already the first child of div id outer, you can use appendChild and don't 
 // need insertBefore 
 
-
-
 /* the below is what happens when you click the button. everything above this line is creating the 16x16 grid of squares. showing 
 the color change effect when the mouse enters/leaves the square. and finally adding a button. some important differences from the 
 earlier part of your code from way up above is that the <div id='container'> changes to <div id='new-container> after the button 
@@ -115,12 +113,13 @@ divClassSquare. after the button click, it is referenced with divClassSquareAfte
 <div class='square'>. you had to reference a new var otherwise the colors didn't change.
  */
 
-
 button.addEventListener('click', (e) => {
     console.log(e);
     const eachSideNumber = Number(window.prompt('Type a number between 1 and 100. The number determines how many squares per side of the new grid:', ''));
-    console.log(eachSideNumber);  // to limit only numbers 1 thru 100. this exits the button event if an invalid number is typed
-    if (eachSideNumber < 1) { 
+    // Number(window.prompt etc). you are casting the user input as a number data type. even if a letter is typed, this letter is 
+    // actually seen as a number data type and is called NaN.
+    console.log(eachSideNumber);  
+    if (eachSideNumber < 1) { // to limit only numbers 1 thru 100. this exits the button event if an invalid number is typed
         alert('It must be between 1 and 100');
         return;
     } else if (eachSideNumber > 100) {
@@ -128,7 +127,7 @@ button.addEventListener('click', (e) => {
         return;
     } else if (eachSideNumber !== eachSideNumber) { // since a letter or space or or any key that is not a number is still 
         // a numeric data type bc of casting the prompt as a Number, it is seen as NaN. to test for something that is NaN, 
-        // you can use that value !== value.
+        // you can use that value !== value. what this does is makes sure that the thing typed is a number and not a string.
         alert('It must be between 1 and 100');
         return;
     };
@@ -137,7 +136,7 @@ button.addEventListener('click', (e) => {
     console.log(totalNumber);
 
     container.setAttribute('id', 'new-container'); // original container var is <div id='container'> from way up top
-    // if id exists, update it to new-container, else create an id with value new-container. 
+    // if id exists, update it to new-container, else create an id with value new-container. seems similar to toggle?
     // the result will be <div id='new-container'> and it stays that way after each button click
     // before the button click, the <div id='container'> and all its children which are the original 256 squares are shown.
     // then after each button click, the <div id='container'> becomes <div id='new-container'> and all its children are based 
@@ -150,20 +149,29 @@ button.addEventListener('click', (e) => {
         wasOriginalGrid.removeChild(wasOriginalGrid.firstChild);
     }
 
+    // <div id='new-container'> has first child which is <div class='square'>. while the first child exists, it removes the first
+    // child. then the second child gets bumped up to the first child. and since that is now the first child, that gets removed.
+    // then the third child gets bumped up to the first child bc the first and second have been removed. now the former third child 
+    // is the first child and is removed. this goes on until there are no children to remove. then the while loop stops.
+
     /*  this part removes all children starting from the last child. it goes bottom up.
     const wasOriginalGrid = document.querySelector('#new-container');
     while (wasOriginalGrid.firstChild) {
         wasOriginalGrid.removeChild(wasOriginalGrid.lastChild);
-    } // this got rid of the original 256 squares. the first one is still showing the color changing is on the
+    } // this got rid of the original 256 squares. the first one is still showing the color changing. but the
     // the new ones added lost the color changing
     */
+    const tempTest1 = wasOriginalGrid.firstChild; // to see if the first child is there after the loop is done.
+    console.log(tempTest1); // shows null. before was confused on why null. i thought it should at least the first child
+    // remaining which would really be the last child that got bumped up since all the earlier children were removed. but 
+    // now i understand the while loop better and it does remove all children so this console shows empty aka null.
 
-    console.log(wasOriginalGrid.firstChild); // shows null?
-    // const remainingChild = wasOriginalGrid.firstElementChild;  doesn't work. gives error about node is not child of element
-    // and something about button but this is not under button. it is under <div id=new-container>?
-    // wasOriginalGrid.removeChild(remainingChild);
-
-    wasOriginalGrid.appendChild(div); // this and the loop below it put the new squares
+    const tempTest2 = wasOriginalGrid.appendChild(div); // now that all the 256 squares are gone. this puts the first new square.
+    console.log (tempTest2); // shows the new first square which is <div class='square'>
+    const tempTest2HowManyNodes = document.querySelectorAll('.square'); // since this is before the loop, you will just see the 
+    // node count of 1 for the first square that is added.
+    console.log(tempTest2HowManyNodes); // it isn't until after the loop runs and appends all the new squares that when you 
+    // console the nodes, then you see the count of how many there are.
 
     for(let i = 2; i <= totalNumber; i++) { // appends more divs based on the user's number. the first div is appended before the loop. 
         // so start the counter at 2 and keep appending until you hit the user's number.
@@ -189,8 +197,6 @@ button.addEventListener('click', (e) => {
     divClassSquareAfterButton.forEach(square => square.addEventListener('mouseleave', (e) => { 
         e.target.setAttribute('style', 'background-color: rgb(207,232,220)');
     }));
-
-
 
     /* grid-template-columns: repeat(16, minmax(0, 1fr)); changed the 2nd param to have a minmax instead of 1fr only
     grid-auto-rows: minmax(0, 1fr); the cols are explicit and the rows are implicit. this gives a minmax to each row.
